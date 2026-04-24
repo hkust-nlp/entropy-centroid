@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-<img src="figures/Entropy Centroid.pdf" width="700" alt="centroid-intro-figure_00">
+<img src="figures/Entropy_Centroid.png" width="500" alt="centroid-intro-figure_00">
 </div>
 
 ## Table of Contents
