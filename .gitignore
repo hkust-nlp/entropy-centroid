@@ -46,9 +46,6 @@ outputs/
 *.log
 *.csv
 *.json
-*.png
-*.jpg
-*.pdf
 *.html
 
 # Model cache
@@ -85,9 +82,6 @@ fix_*.*
 repair_*.py
 *_backup.py
 
-run_batch_inference_*.sh
-run_eval_*.sh
-!run_eval_*_example.sh
 
 # Environment variables
 .env
