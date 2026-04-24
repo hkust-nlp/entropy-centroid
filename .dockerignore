@@ -1,0 +1,50 @@
+# Prevent huge Docker build context uploads.
+.git
+.gitignore
+outputs
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/.ipynb_checkpoints
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+
+# Local virtual environments.
+.venv
+venv
+env
+
+# Large local model/cache directories.
+.cache
+hf_cache
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Large data/runtime directories (不需要打进镜像，运行时挂载)
+tau2-bench/data
+tau2-bench/web
+tau2-bench/figs
+
+# 测试和文档 (镜像中不需要)
+test
+
+# Harbor: 排除重量级子目录，保留源码和配置
+harbor/.git
+harbor/.github
+harbor/tests
+harbor/docs
+harbor/adapters
+harbor/examples
+harbor/**/__pycache__
+harbor/**/.pytest_cache
+harbor/uv.lock
+
+# MD 文件: 排除大部分，但保留 harbor/README.md (pip install -e 需要)
+*.md
+!harbor/README.md

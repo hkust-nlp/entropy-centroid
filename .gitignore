@@ -1,0 +1,133 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Output files
+outputs/
+*.log
+*.csv
+*.json
+*.png
+*.jpg
+*.pdf
+*.html
+
+# Model cache
+.cache/
+huggingface/
+
+# HuggingFace datasets cache
+~/.cache/huggingface/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# vLLM cache
+.vllm_cache/
+
+# Large files
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Keep directory structure but ignore contents
+!outputs/.gitkeep
+!outputs/results/.gitkeep
+!outputs/logs/.gitkeep
+
+# Test files
+test_*.py
+*_test.py
+fix_*.*
+repair_*.py
+*_backup.py
+
+run_batch_inference_*.sh
+run_eval_*.sh
+!run_eval_*_example.sh
+
+# Environment variables
+.env
+.env.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+docs/
+
+*.out
+slurm.out
+
+submit_job.sh
+interactive_gpu.sh
+
+scripts/superpod/
+
+
+docker/
+check*.*
+diagnose*.*
+
+install.sh
+check_*.py
+
+test/
+run_self_certainty_*.sh
+
+CLAUDE.md

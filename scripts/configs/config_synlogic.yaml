@@ -1,0 +1,89 @@
+# SynLogic Configuration
+# Synthetic logic reasoning tasks from HuggingFace
+
+# Model Configuration
+model:
+  name_or_path: "openai/gpt-oss-120b"
+  trust_remote_code: true
+  # max_model_len: 16384
+  dtype: "auto"
+
+# GPU Configuration
+gpu:
+  device_ids: [0, 1, 2, 3]
+  tensor_parallel_size: 4
+  gpu_memory_utilization: 0.9
+
+# Dataset Configuration
+dataset:
+  type: "synlogic"  # Use SynLogic dataset
+  split: "validation"  # validation split
+  max_samples: null  # null for all samples
+  
+  # SynLogic specific settings
+  synlogic:
+    path: "./SynLogic"  # Path to SynLogic directory (for verifiers)
+    # Subset/config: 'easy' or 'hard' (required by HuggingFace dataset)
+    subset: "hard"  # Use 'hard' subset for more challenging tasks
+    # Filter by task name (null for all tasks)
+    # Available tasks include: campsite, sudoku, cryptarithm, survo, skyscraper_puzzle,
+    # web_of_lies, goods_exchange, arrow_maze, kukurasu, number_wall, numbrix, norinori,
+    # minesweeper, operation, word_sorting, math_path, boolean_expressions, space_reasoning,
+    # cipher, time_sequence, wordscapes, game_of_24, buggy_tables, calcudoko, dyck_language,
+    # futoshiki, object_counting, object_properties, star_placement_puzzle
+    task_name: null  # Set to specific task name to filter, e.g., "campsite"
+
+# Inference Configuration
+inference:
+  batch_size: 4
+  temperature: 0.7
+  top_p: 0.95
+  max_tokens: 8192
+  n: 1  # Number of trajectories per sample
+
+# Entropy Configuration
+entropy:
+  top_k: 10
+
+# Output Configuration
+output:
+  save_dir: "./outputs/results"
+  log_dir: "./outputs/logs"
+  save_intermediate: true
+  save_formats:
+    - "json"
+    - "csv"
+  visualization:
+    enabled: true
+    formats:
+      - "png"
+      - "html"
+    dpi: 300
+
+# Statistics Configuration
+statistics:
+  high_entropy_percentile: 5.0
+  track_token_frequencies: true
+  generate_wordcloud: false
+
+# Step Division Configuration
+step_division:
+  enabled: true
+  high_entropy_percentile: 5.0
+  min_token_distance: 50
+
+# Evaluation Configuration
+evaluation:
+  enabled: true
+  evaluator_type: "logic"
+
+# Example task-specific configurations
+# To run only campsite tasks:
+# dataset:
+#   synlogic:
+#     task_name: "campsite"
+#
+# To run only sudoku tasks:
+# dataset:
+#   synlogic:
+#     task_name: "sudoku"

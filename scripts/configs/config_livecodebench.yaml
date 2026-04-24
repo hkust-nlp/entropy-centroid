@@ -1,0 +1,74 @@
+# LiveCodeBench Configuration
+# Code generation benchmark using LeetCode/Codeforces/AtCoder problems
+# with actual test case execution (stdin/stdout or function-call based)
+
+# Model Configuration
+model:
+  name_or_path: "Qwen/Qwen2.5-72B-Instruct"
+  trust_remote_code: true
+  dtype: "auto"
+
+# GPU Configuration
+gpu:
+  device_ids: [0, 1, 2, 3, 4, 5, 6, 7]
+  tensor_parallel_size: 8
+  gpu_memory_utilization: 0.9
+
+# Dataset Configuration
+dataset:
+  type: "livecodebench"
+  max_samples: null
+
+  # LiveCodeBench specific settings
+  livecodebench:
+    # Release version: release_v1 through release_v6 (or release_latest)
+    release_version: "release_v6"
+    # Optional date range filtering (YYYY-MM-DD format, or null for all)
+    start_date: null
+    end_date: null
+
+# Inference Configuration
+inference:
+  batch_size: 8
+  temperature: 0.7
+  top_p: 0.95
+  max_tokens: 32768
+  n: 32
+  stop_tokens: []
+
+# Entropy Configuration
+entropy:
+  top_k: 10
+
+# Output Configuration
+output:
+  save_dir: "./outputs/results"
+  log_dir: "./outputs/logs"
+  save_intermediate: true
+  save_formats:
+    - "json"
+    - "csv"
+  visualization:
+    enabled: true
+    formats:
+      - "png"
+      - "html"
+    dpi: 300
+
+# Statistics Configuration
+statistics:
+  high_entropy_percentile: 5.0
+  track_token_frequencies: true
+  generate_wordcloud: false
+
+# Step Division Configuration
+step_division:
+  enabled: true
+  high_entropy_percentile: 5.0
+  min_token_distance: 50
+
+# Evaluation Configuration
+# LiveCodeBench evaluation requires code execution (separate step)
+evaluation:
+  enabled: false
+

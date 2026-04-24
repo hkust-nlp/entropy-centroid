@@ -1,0 +1,79 @@
+# KOR-Bench Configuration
+# Logic reasoning benchmark with rule-based evaluation
+
+# Model Configuration
+model:
+  name_or_path: "allenai/Olmo-3.1-32B-Think"  # Can be changed to other models
+  trust_remote_code: true
+  dtype: "auto"
+
+# GPU Configuration
+gpu:
+  device_ids: [0,1,2,3,4,5,6,7]
+  tensor_parallel_size: 8
+  gpu_memory_utilization: 0.9
+
+# Dataset Configuration
+dataset:
+  type: "korbench"  # Use KOR-Bench dataset
+  max_samples: null  # null for all samples
+  
+  # KOR-Bench specific settings
+  korbench:
+    path: "./KOR-Bench"  # Path to KOR-Bench directory
+    # Category options:
+    #   - "all": Load all categories (default)
+    #   - Single string: "cipher", "logic", "operation", "puzzle", "counterfactual"
+    #   - List of strings: ["cipher", "logic"] to load multiple categories
+    # Examples:
+    #   category: "all"                    # All categories
+    #   category: "logic"                  # Only logic
+    #   category: ["cipher", "logic"]      # Multiple specific categories
+    category: "all"
+    # Mode options: zero-shot, three-shot, trick, self-correction
+    mode: "zero-shot"
+
+# Inference Configuration
+inference:
+  batch_size: 32
+  temperature: 1.0
+  top_p: 0.95
+  max_tokens: 16384
+  n: 32  # Number of trajectories per sample
+
+# Entropy Configuration
+entropy:
+  top_k: 10
+
+# Output Configuration
+output:
+  save_dir: "./outputs/results"
+  log_dir: "./outputs/logs"
+  save_intermediate: true
+  save_formats:
+    - "json"
+    - "csv"
+  visualization:
+    enabled: true
+    formats:
+      - "png"
+      - "html"
+    dpi: 300
+
+# Statistics Configuration
+statistics:
+  high_entropy_percentile: 5.0
+  track_token_frequencies: true
+  generate_wordcloud: false
+
+# Step Division Configuration
+step_division:
+  enabled: true
+  high_entropy_percentile: 5.0
+  min_token_distance: 50  # Logic tasks may have shorter steps
+
+# Evaluation Configuration
+evaluation:
+  enabled: true
+  evaluator_type: "logic"  # Use logic evaluator
+

@@ -1,0 +1,115 @@
+# BigCodeBench Configuration
+# Code generation benchmark from bigcode/bigcodebench
+
+# Model Configuration
+model:
+  name_or_path: "Qwen/Qwen2.5-72B-Instruct"  # Can be changed to other models
+  trust_remote_code: true
+  # max_model_len: 16384
+  dtype: "auto"  # auto, float16, bfloat16
+
+# GPU Configuration
+gpu:
+  device_ids: [0, 1, 2, 3, 4, 5, 6, 7]  # Specify GPU IDs to use
+  tensor_parallel_size: 8    # Number of GPUs for tensor parallelism
+  gpu_memory_utilization: 0.9
+
+# Dataset Configuration
+dataset:
+  type: "bigcodebench"  # Use BigCodeBench dataset
+  split: "default"      # Deprecated: BigCodeBench uses 'subset' as the actual split name
+  max_samples: null     # null for all samples, or specify a number for testing
+  
+  # BigCodeBench specific settings
+  bigcodebench:
+    # Task mode: 'instruct' for instruction-following, 'complete' for code completion
+    # - 'instruct': Recommended for chat/instruction-tuned models (e.g., Qwen-Instruct)
+    #               Uses natural language instructions as prompts
+    # - 'complete': For code completion models (e.g., CodeLlama-Base)
+    #               Uses function signature + docstring as prompts
+    mode: "instruct"  # Recommended: 'instruct' for instruction-tuned models
+    # Dataset version (used as split name when loading from HuggingFace)
+    # Available versions: 'v0.1.0_hf', 'v0.1.1', 'v0.1.2', 'v0.1.3', 'v0.1.4'
+    # Recommended: 'v0.1.4' - includes all bug fixes (URL, test cases, typos)
+    subset: "v0.1.4"
+    # Prompt template type
+    prompt_type: "default"  # Options: 'default', 'detailed', 'concise'
+
+# Inference Configuration
+inference:
+  batch_size: 8         # Number of samples to process in parallel
+  # Temperature settings:
+  # - For single trajectory (n=1): temperature=0.0 is OK (greedy/deterministic)
+  # - For Best-of-N (n>1): temperature MUST be > 0 (e.g., 0.7) for sampling diversity
+  #   NOTE: Greedy sampling (temperature=0) + n>1 will cause an error!
+  temperature: 0.0      # Use 0.0 for deterministic, 0.7+ for Best-of-N sampling
+  top_p: 0.95
+  max_tokens: 4096      # Code generation typically needs less tokens than math
+  n: 1                  # Number of trajectories per sample (set >1 for Best-of-N)
+                        # WARNING: If n>1, temperature must be > 0!
+  stop_tokens:          # Stop generation after these sequences
+    # Common code completion stop tokens (optional)
+    # - "\n\n\n"
+    # - "```"
+
+# Entropy Configuration
+entropy:
+  top_k: 10  # Number of top candidates for entropy calculation
+
+# Output Configuration
+output:
+  save_dir: "./outputs/results"
+  log_dir: "./outputs/logs"
+  save_intermediate: true  # Save intermediate results
+  save_formats:
+    - "json"  # Detailed token-level results
+    - "csv"   # Summary statistics
+  visualization:
+    enabled: true
+    formats:
+      - "png"
+      - "html"  # Interactive plots
+    dpi: 300
+
+# Statistics Configuration
+statistics:
+  high_entropy_percentile: 5.0  # Percentile threshold (top 5% are high-entropy)
+  track_token_frequencies: true
+  generate_wordcloud: false
+
+# Step Division Configuration
+# Note: For code generation, step division may be less meaningful
+# But can still identify high-uncertainty points in code generation
+step_division:
+  enabled: true  # Enable step division based on high-entropy tokens
+  high_entropy_percentile: 5.0  # Use top 5% entropy tokens as candidates
+  min_token_distance: 50  # Minimum distance between step boundaries (in tokens)
+
+# Evaluation Configuration
+# Note: BigCodeBench evaluation requires code execution environment
+# Set enabled: false for inference-only mode
+evaluation:
+  enabled: false  # Disable evaluation (requires sandbox environment)
+  evaluator_type: "code"
+
+# ============================================
+# Example Configurations
+# ============================================
+
+# For instruction-following code generation (recommended):
+# dataset:
+#   bigcodebench:
+#     mode: "instruct"
+#     prompt_type: "default"
+
+# For code completion:
+# dataset:
+#   bigcodebench:
+#     mode: "complete"
+#     prompt_type: "default"
+
+# For Best-of-N sampling with code:
+# IMPORTANT: temperature MUST be > 0 when n > 1 (greedy sampling only supports n=1)
+# inference:
+#   temperature: 0.7  # Required: must be > 0 for Best-of-N
+#   n: 8              # Generate 8 solutions per task

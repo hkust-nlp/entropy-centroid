@@ -1,0 +1,88 @@
+# Model Configuration
+# openai/gpt-oss-120b Qwen/QwQ-32B-Preview  Qwen/Qwen3-8B
+model:
+  name_or_path: "openai/gpt-oss-120b"  # Can be changed to other models
+  trust_remote_code: true
+  # max_model_len: 32768
+  dtype: "auto"  # auto, float16, bfloat16
+
+# GPU Configuration
+gpu:
+  device_ids: [4,5,6,7]  # Specify GPU IDs to use (0-7)
+  tensor_parallel_size: 4    # Number of GPUs for tensor parallelism
+  gpu_memory_utilization: 0.9
+
+# Dataset Configuration
+# math-ai/olympiadbench id question solution test
+# HuggingFaceH4/MATH-500 problem solution test
+# yentinglin/aime_2025 id problem solution train
+
+dataset:
+  name: "allenai/omega-500"  # HuggingFace dataset name
+  split: "train"
+  max_samples: null  # null for all samples, or specify a number for testing
+  fields:
+    id: "id"  # Optional: field name for ID (auto-generated if not present)
+    problem: "messages"  # Field name for the problem/question
+    solution: "ground_truth"  # Field name for the solution/answer
+
+# Inference Configuration
+inference:
+  batch_size: 4  # Number of samples to process in parallel
+  temperature: 0.7
+  top_p: 0.9
+  max_tokens: 32768
+  n: 4  # Number of trajectories per sample (Best-of-N sampling). Set to >1 for multiple trajectories.
+  stop_tokens:  # Stop generation after these sequences (DO NOT include answer markers!)
+    # - "<|endoftext|>"
+    # - "<|im_end|>"
+    # - "</s>"
+
+# Entropy Configuration
+entropy:
+  top_k: 10  # Number of top candidates for entropy calculation
+
+# Output Configuration
+output:
+  save_dir: "./outputs/results"
+  log_dir: "./outputs/logs"
+  save_intermediate: true  # Save intermediate results
+  save_formats:
+    - "json"  # Detailed token-level results
+    - "csv"   # Summary statistics
+  visualization:
+    enabled: true
+    formats:
+      - "png"
+      - "html"  # Interactive plots
+    dpi: 300
+
+# Statistics Configuration
+statistics:
+  high_entropy_percentile: 5.0  # Percentile threshold (top 5% are high-entropy)
+  track_token_frequencies: true
+  generate_wordcloud: false  # Set to true if you want wordcloud visualization
+
+# Step Division Configuration
+step_division:
+  enabled: true  # Enable step division based on high-entropy tokens
+  high_entropy_percentile: 5.0  # Use top 5% entropy tokens as candidates
+  min_token_distance: 100  # Minimum distance between step boundaries (in tokens)
+
+# Examples of field mapping for different datasets:
+#
+# Example 1: Dataset with id field (e.g., yentinglin/aime_2025)
+#   fields:
+#     id: "id"
+#     problem: "problem"
+#     solution: "solution"
+#
+# Example 2: Dataset without id field (will auto-generate sample_00000, sample_00001, ...)
+#   fields:
+#     problem: "question"
+#     solution: "answer"
+#
+# Example 3: Minimal config (uses defaults, auto-generates IDs)
+#   fields:
+#     problem: "problem"
+#     solution: "solution"
