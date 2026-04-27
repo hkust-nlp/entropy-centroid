@@ -25,22 +25,21 @@
 
 ## Introduction
 
-Centroid is a training-free test-time compute method that selects the best trajectory from N sampled responses using token-level entropy dynamics. Instead of relying on reward models or majority voting, it identifies the trajectory whose entropy profile is closest to the "centroid" of the distribution — a proxy for the most confident and consistent reasoning path.
+Entropy Centroid is a training-free test-time compute method that selects the best trajectory from N sampled responses using entropy dynamics.
 
 **Key features:**
 
 - Runs on top of any vLLM-compatible model — no fine-tuning required
-- Supports math, logic (KOR-Bench, SynLogic), code (LiveCodeBench, BigCodeBench), and agent (tau2-bench) benchmarks
-- Parallel centroid cache computation across parameter sweeps
+- Supports math, logic, code, and agent benchmarks
 - Unified evaluation pipeline for all dataset types
 
 ## News
 
-- **[2026/04]** Initial release of inference scripts, evaluation pipeline.
+- **[2026/04]** Initial release of inference and evaluation pipeline.
 
 ## How It Works
 
-1. **Inference** — sample N trajectories per problem, recording per-token Top 10 log-probabilities
+1. **Inference** — sample N trajectories per problem, recording per-token top 10 candidates in the vocabulary with the highest probability
 2. **Centroid cache** — compute a scalar centroid score per trajectory from High Entropy Phase (HEP)
 3. **Evaluation** — pick the trajectory with the lowest centroid score as the final answer and score the selected answer against ground truth.
 
