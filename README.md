@@ -2,7 +2,7 @@
 
 # Entropy Centroids as Intrinsic Rewards for Test-Time Scaling
 
-[![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/TODO)
+[![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2604.26173)
 
 </div>
 
@@ -219,10 +219,10 @@ outputs/
 If you find this work useful, please cite:
 
 ```bibtex
-
-
+@article{zhao2026entropycentroids,
+      title={Entropy Centroids as Intrinsic Rewards for Test-Time Scaling}, 
+      author={Wenshuo Zhao and Qi Zhu and Xingshan Zeng and Fei Mi and Lifeng Shang and Yiren Feng},
+      journal={arXiv preprint arXiv:2604.26173},
+      year={2026}
+}
 ```
-
-## Acknowledgement
-
-We use [vLLM](https://github.com/vllm-project/vllm) for inference, [tau2-bench](https://github.com/sierra-research/tau2-bench) for agent loop, [LiveCodeBench](https://github.com/LiveCodeBench/LiveCodeBench), [BigCodeBench](https://github.com/bigcode-project/bigcodebench) and [SynLogic](https://github.com/MiniMaxAI/SynLogic) for benchmarking.
